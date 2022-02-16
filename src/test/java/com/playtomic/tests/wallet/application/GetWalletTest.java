@@ -2,6 +2,7 @@ package com.playtomic.tests.wallet.application;
 
 import com.playtomic.tests.wallet.domain.Wallet;
 import com.playtomic.tests.wallet.domain.WalletId;
+import com.playtomic.tests.wallet.domain.WalletNotFoundException;
 import com.playtomic.tests.wallet.domain.WalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,5 +39,16 @@ public class GetWalletTest {
     Wallet wallet = getWallet.execute(walletId);
 
     assertThat(wallet).usingRecursiveComparison().isEqualTo(walletExpected);
+  }
+
+  @Test
+  void should_do_not_get_the_wallet_when_does_not_exist() {
+    String uuid = UUID.randomUUID().toString();
+    WalletId walletId = WalletId.of(uuid);
+    given(walletRepository.findBy(walletId)).willReturn(Optional.empty());
+
+    Throwable t = catchThrowable(() -> getWallet.execute(walletId));
+
+    assertThat(t).isInstanceOf(WalletNotFoundException.class);
   }
 }

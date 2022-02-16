@@ -2,6 +2,7 @@ package com.playtomic.tests.wallet.application;
 
 import com.playtomic.tests.wallet.domain.Wallet;
 import com.playtomic.tests.wallet.domain.WalletId;
+import com.playtomic.tests.wallet.domain.WalletNotFoundException;
 import com.playtomic.tests.wallet.domain.WalletRepository;
 
 import javax.inject.Named;
@@ -16,6 +17,6 @@ public class GetWallet {
   }
 
   public Wallet execute(WalletId id) {
-    return walletRepository.findBy(id).get();
+    return walletRepository.findBy(id).orElseThrow(WalletNotFoundException::new);
   }
 }
