@@ -1,14 +1,23 @@
 package com.playtomic.tests.wallet.application;
 
-import com.playtomic.tests.wallet.domain.Balance;
-import com.playtomic.tests.wallet.domain.CreditCard;
-import com.playtomic.tests.wallet.domain.WalletId;
+import com.playtomic.tests.wallet.domain.*;
 
 import javax.inject.Named;
 
 @Named
 public class AddBalance {
+    private final WalletRepository walletRepository;
+    private final PaymentClient paymentClient;
+
+    public AddBalance(WalletRepository walletRepository, PaymentClient paymentClient) {
+        this.walletRepository = walletRepository;
+        this.paymentClient = paymentClient;
+    }
+
     public void execute(WalletId walletId, Balance balance, CreditCard creditCard) {
-        throw new RuntimeException("not implemented");
+        Wallet wallet = walletRepository.findBy(walletId).orElseThrow(WalletNotFoundException::new);
+        paymentClient.addBalance(creditCard, balance);
+        wallet.addBalance(balance);
+        walletRepository.save(wallet);
     }
 }

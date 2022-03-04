@@ -1,3 +1,3 @@
-package com.playtomic.tests.wallet.infrastructure.stripe;
+package com.playtomic.tests.wallet.infrastructure.payment.stripe;
 
 public class StripeAmountTooSmallException extends StripeServiceException {}

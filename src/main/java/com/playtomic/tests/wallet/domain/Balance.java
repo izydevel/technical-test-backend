@@ -1,5 +1,6 @@
 package com.playtomic.tests.wallet.domain;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Balance {
@@ -30,4 +31,12 @@ public class Balance {
   public int hashCode() {
     return Objects.hash(value);
   }
+
+    public BigDecimal toCents() {
+      return new BigDecimal(value/100);
+    }
+
+    public void add(Balance balance) {
+      this.value += balance.value;
+    }
 }
