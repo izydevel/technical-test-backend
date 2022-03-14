@@ -51,7 +51,8 @@ class WalletControllerTest {
     @Test
     void should_add_balance() {
         String id = UUID.randomUUID().toString();
-        AddBalanceRequest addBalanceRequest = AddBalanceRequest.of("4242424242424242", 2000);
+        String idTransaction = UUID.randomUUID().toString();
+        AddBalanceRequest addBalanceRequest = AddBalanceRequest.of(idTransaction, "4242424242424242", 2000);
 
         walletController.put(id, addBalanceRequest);
 
