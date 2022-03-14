@@ -4,6 +4,7 @@ import com.playtomic.tests.wallet.application.AddBalance;
 import com.playtomic.tests.wallet.application.GetWallet;
 import com.playtomic.tests.wallet.domain.Balance;
 import com.playtomic.tests.wallet.domain.CreditCard;
+import com.playtomic.tests.wallet.domain.TransactionId;
 import com.playtomic.tests.wallet.domain.Wallet;
 import com.playtomic.tests.wallet.domain.WalletId;
 import com.playtomic.tests.wallet.infrastructure.api.dto.AddBalanceRequest;
@@ -56,7 +57,7 @@ class WalletControllerTest {
 
         walletController.put(id, addBalanceRequest);
 
-        verify(addBalance).execute(WalletId.of(id), Balance.of(addBalanceRequest.getBalanceToAdd()), CreditCard.of(addBalanceRequest.getCardNumber()));
+        verify(addBalance).execute(TransactionId.of(addBalanceRequest.getId()), WalletId.of(id), Balance.of(addBalanceRequest.getBalanceToAdd()), CreditCard.of(addBalanceRequest.getCardNumber()));
     }
 
     private WalletResponse expectedWalletResponse(String id, int balance) {

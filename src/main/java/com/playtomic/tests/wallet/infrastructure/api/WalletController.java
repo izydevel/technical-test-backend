@@ -4,6 +4,7 @@ import com.playtomic.tests.wallet.application.AddBalance;
 import com.playtomic.tests.wallet.application.GetWallet;
 import com.playtomic.tests.wallet.domain.Balance;
 import com.playtomic.tests.wallet.domain.CreditCard;
+import com.playtomic.tests.wallet.domain.TransactionId;
 import com.playtomic.tests.wallet.domain.Wallet;
 import com.playtomic.tests.wallet.domain.WalletId;
 import com.playtomic.tests.wallet.infrastructure.api.dto.AddBalanceRequest;
@@ -35,7 +36,7 @@ public class WalletController {
     @PutMapping("/{walletId}/add-balance")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void put(@PathVariable("walletId") String walletId, @RequestBody AddBalanceRequest addBalanceRequest) {
-        addBalance.execute(WalletId.of(walletId), Balance.of(addBalanceRequest.getBalanceToAdd()), CreditCard.of(addBalanceRequest.getCardNumber()));
+        addBalance.execute(TransactionId.of(addBalanceRequest.getId()), WalletId.of(walletId), Balance.of(addBalanceRequest.getBalanceToAdd()), CreditCard.of(addBalanceRequest.getCardNumber()));
     }
 
     private WalletResponse map(Wallet wallet) {

@@ -14,7 +14,7 @@ public class AddBalance {
         this.paymentClient = paymentClient;
     }
 
-    public void execute(WalletId walletId, Balance balance, CreditCard creditCard) {
+    public void execute(TransactionId of, WalletId walletId, Balance balance, CreditCard creditCard) {
         Wallet wallet = walletRepository.findBy(walletId).orElseThrow(WalletNotFoundException::new);
         paymentClient.addBalance(creditCard, balance);
         wallet.addBalance(balance);
