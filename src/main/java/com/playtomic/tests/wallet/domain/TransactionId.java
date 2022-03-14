@@ -23,8 +23,8 @@ public class TransactionId {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    TransactionId walletId = (TransactionId) o;
-    return Objects.equals(value, walletId.value);
+    TransactionId that = (TransactionId) o;
+    return Objects.equals(value, that.value);
   }
 
   @Override

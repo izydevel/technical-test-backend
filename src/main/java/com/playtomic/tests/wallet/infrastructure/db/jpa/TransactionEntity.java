@@ -10,6 +10,12 @@ public class TransactionEntity {
     @Id
     private String id;
 
+    public static TransactionEntity of(String id) {
+        TransactionEntity transactionEntity = new TransactionEntity();
+        transactionEntity.setId(id);
+        return transactionEntity;
+    }
+
     public String getId() {
         return id;
     }
