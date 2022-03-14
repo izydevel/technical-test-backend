@@ -15,9 +15,9 @@ import javax.inject.Named;
 
 @Named
 public class AddBalance {
-    private TransactionRepository transactionRepository;
     private final WalletRepository walletRepository;
     private final PaymentClient paymentClient;
+    private TransactionRepository transactionRepository;
 
     public AddBalance(TransactionRepository transactionRepository, WalletRepository walletRepository, PaymentClient paymentClient) {
         this.transactionRepository = transactionRepository;
@@ -25,14 +25,13 @@ public class AddBalance {
         this.paymentClient = paymentClient;
     }
 
-    public void execute(TransactionId transactionId, WalletId walletId, Balance balance, CreditCard creditCard) {
-        if(transactionRepository.findBy(transactionId).isPresent()) return;
+    public synchronized void execute(TransactionId transactionId, WalletId walletId, Balance balance, CreditCard creditCard) {
+        if (transactionRepository.findBy(transactionId).isPresent()) return;
+
         Wallet wallet = walletRepository.findBy(walletId).orElseThrow(WalletNotFoundException::new);
-        synchronized (this) {
-            paymentClient.addBalance(creditCard, balance);
-            wallet.addBalance(balance);
-            walletRepository.save(wallet);
-            transactionRepository.save(Transaction.of(transactionId));
-        }
+        paymentClient.addBalance(creditCard, balance);
+        wallet.addBalance(balance);
+        walletRepository.save(wallet);
+        transactionRepository.save(Transaction.of(transactionId));
     }
 }
